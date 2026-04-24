@@ -9,7 +9,7 @@ public class ViewUtil {
 
     public static void paginationMenu() {
         Table table = new Table(1, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.SURROUND);
-        CellStyle center = new CellStyle(CellStyle.HorizontalAlign.CENTER);
+
         table.addCell("  [n] Next Page        [b] Back  ");
         table.addCell("  [p] Previous Page    [e] Exit  ");
         table.addCell("  [g] Go to Page       [md] Movie Detail  ");

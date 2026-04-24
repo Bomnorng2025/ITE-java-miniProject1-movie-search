@@ -9,9 +9,11 @@ import model.MovieResponse;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +53,7 @@ public class GetApi {
 
 //    get movies -------------------------
     public MovieResponse getMoviesResponse(String title, Integer page) {
-        String url = ApiConfig.baseUrl + "search/movie?" + ApiConfig.apiKey + "&query=" + title + "&page=" + page;
+        String url = ApiConfig.baseUrl + "search/movie?" + ApiConfig.apiKey + "&query=" + URLEncoder.encode(title, StandardCharsets.UTF_8) + "&page=" + page;
 
         try {
             HttpResponse<String> responseMovie = client.send(requestApi(url), HttpResponse.BodyHandlers.ofString());
@@ -91,6 +93,8 @@ public class GetApi {
 
         try {
             HttpResponse<String> responseMovieDetail = client.send(requestApi(url), HttpResponse.BodyHandlers.ofString());
+            if (responseMovieDetail.statusCode() == 404)
+                return null;
 
             JsonObject root = JsonParser.parseString(responseMovieDetail.body()).getAsJsonObject();
             JsonArray countryArray = root.getAsJsonArray("origin_country");
@@ -124,7 +128,7 @@ public class GetApi {
                     originCountry
             );
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(".> error : " + e);
         }
     }
 }

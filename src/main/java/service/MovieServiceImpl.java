@@ -1,6 +1,7 @@
 package service;
 
 import config.GetApi;
+import model.MovieDetail;
 import model.MovieResponse;
 import utils.TableView;
 
@@ -17,6 +18,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void movieDetail(Integer id) {
-        tableView.displayMovieDetail(getApi.getMovieDetail(id));
+        MovieDetail movieDetail = getApi.getMovieDetail(id);
+        if (movieDetail == null) {
+            System.out.println(" -> (!) Invalid movie ID..!");
+            return;
+        }
+        tableView.displayMovieDetail(movieDetail);
     }
 }
